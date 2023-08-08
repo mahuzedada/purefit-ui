@@ -1,15 +1,13 @@
 import axios from "axios";
-import { DietPlanDTO } from "./dto.ts";
 
-export const prompt = async (dietPlanData: DietPlanDTO): Promise<void> => {
+export const prompt = async (dietPlanData: { user_info: { [p: string]: string | null }; diet_rules: { limited_salt: boolean; reduced_times_eating: string; reduced_portion: string; intermittent_fasting: string; no_artificial_sugar: boolean } }): Promise<any> => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/ask",
+      "https://purefitapi.procamp.dev/ask",
       dietPlanData,
     );
 
-    // Log the result
-    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error("Error sending diet plan data:", error);
   }

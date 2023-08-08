@@ -11,6 +11,7 @@ import Summary from "./routes/Summary.tsx";
 import { useLocalStorage } from "./useLocalStorage.ts";
 import Navbar from "./assets/Navbar.tsx";
 import Container from "./components/Container.tsx";
+import Results from "./routes/Results";
 
 const questions: IQuestion[] = [
   {
@@ -363,6 +364,7 @@ function App(): React.ReactElement {
             />
           ))}
           <Route path="/summary" element={<Summary />} />
+          <Route path="/results" element={<Results />} />
         </Routes>
       </Container>
     </QuestionContext.Provider>

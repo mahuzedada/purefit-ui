@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { QuestionContext } from "../context.ts";
 import FormStep from "../components/FormStep";
 import ProgressBar from "../components/ProgressBar.tsx";
