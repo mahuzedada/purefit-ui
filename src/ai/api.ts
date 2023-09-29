@@ -4,6 +4,20 @@ export const prompt = async (dietPlanData: { user_info: { [p: string]: string | 
   try {
     const response = await axios.post(
       "https://purefitapi.procamp.dev/ask",
+      // "http://localhost:4089/ask",
+      dietPlanData,
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error sending diet plan data:", error);
+  }
+};
+export const plan = async (dietPlanData: { user_info: any; diet_rules: any, email: string }): Promise<any> => {
+  try {
+    const response = await axios.post(
+      "https://purefitapi.procamp.dev/ask/plan",
+      // "http://localhost:4089/ask/plan",
       dietPlanData,
     );
 

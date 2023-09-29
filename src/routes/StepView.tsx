@@ -1,23 +1,24 @@
-import React, { useContext, useCallback } from "react";
+import { useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { QuestionContext } from "../context.ts";
 import FormStep from "../components/FormStep";
 import ProgressBar from "../components/ProgressBar.tsx";
 import BackButton from "../components/BackButton.tsx";
 import useNext from "../useNext.ts";
+import BMIDisplay from "../components/BMIDisplay";
 
 function StepView(): React.ReactElement | null {
   const { questions, answers, setAnswers } = useContext(QuestionContext);
   const { questionId } = useParams();
-  const n = useNext();
+  const next = useNext();
 
   const handleOptionSelected = useCallback(
-    (selectedOption: number) => {
+    (selectedOption: string) => {
       setAnswers({
         ...answers,
         [questionId!]: selectedOption,
       });
-      n();
+      next();
     },
     [questionId],
   );
@@ -31,6 +32,7 @@ function StepView(): React.ReactElement | null {
   return (
     <div className="flex flex-col gap-8">
       <ProgressBar />
+      <BMIDisplay />
       <FormStep question={question} onOptionSelected={handleOptionSelected} />
       <BackButton />
     </div>

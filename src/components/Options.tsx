@@ -1,4 +1,3 @@
-import React from "react";
 import OptionComponent from "./Option.tsx";
 import { IOption } from "../context.ts"; // import the Option component
 
@@ -7,7 +6,7 @@ interface AnswerOptionsProps {
   onOptionSelected: (i: any) => void;
 }
 
-function AnswerOptions({
+function Options({
   options,
   onOptionSelected,
 }: AnswerOptionsProps): React.ReactElement {
@@ -17,11 +16,11 @@ function AnswerOptions({
         <OptionComponent
           key={index}
           option={option}
-          onOptionSelected={() => onOptionSelected(option.title)}
+          onOptionSelected={onOptionSelected}
         />
       ))}
     </div>
   );
 }
 
-export default AnswerOptions;
+export default Options;

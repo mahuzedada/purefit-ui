@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import {
   QuestionContext,
@@ -12,6 +11,10 @@ import { useLocalStorage } from "./useLocalStorage.ts";
 import Navbar from "./assets/Navbar.tsx";
 import Container from "./components/Container.tsx";
 import Results from "./routes/Results";
+import emptyResponse from "./constants/emptyResponse";
+
+import './i18n';
+import './App.css';
 
 const questions: IQuestion[] = [
   {
@@ -56,6 +59,43 @@ const questions: IQuestion[] = [
     ],
   },
   {
+    id: "height",
+    text: "How tall are you?",
+    summaryText: "Height",
+    inputs: ['ft', 'in'],
+  },
+  {
+    id: "weight",
+    text: "How much do you weight?",
+    summaryText: "Weight",
+    inputs: ['lbs'],
+  },
+  {
+    id: "target_weight",
+    text: "How much would you like to weight?",
+    summaryText: "Target Weight",
+    inputs: ['lbs'],
+  },
+  {
+    id: "timeframe",
+    text: "What is your timeframe to reach your weight goal?",
+    summaryText: "Timeframe",
+    options: [
+      {
+        title: "2-4 Weeks",
+      },
+      {
+        title: "1-3 Months",
+      },
+      {
+        title: "3-6 Months",
+      },
+      {
+        title: "6-12 Months",
+      },
+    ],
+  },
+  {
     id: "lifestyle",
     text: "What is your current lifestyle?",
     summaryText: "Lifestyle",
@@ -83,45 +123,8 @@ const questions: IQuestion[] = [
     ],
   },
   {
-    id: "marital_status",
-    text: "What is your marital status?",
-    summaryText: "Marital",
-    options: [
-      { title: "Single" },
-      {
-        title: "Married or Domestic Partnership",
-      },
-      { title: "Divorced" },
-      { title: "Widowed" },
-    ],
-  },
-  {
-    id: "number_of_kids",
-    text: "Do you have kids? If yes, how many?",
-    summaryText: "Kids",
-    options: [
-      { title: "No" },
-      { title: "1" },
-      { title: "2" },
-      { title: "3" },
-      { title: "4 or more" },
-    ],
-  },
-  {
-    id: "kids_age_ranges",
-    text: "If you have kids, what are their age ranges?",
-    summaryText: "Kids Age",
-    options: [
-      { title: "Under 2 years" },
-      { title: "2-5 years" },
-      { title: "6-9 years" },
-      { title: "10-13 years" },
-      { title: "14-17 years" },
-      { title: "18 or older" },
-    ],
-  },
-  {
     id: "allergies",
+    multiple: true,
     text: "Do you have any food allergies or intolerances?",
     summaryText: "Allergies",
     options: [
@@ -134,13 +137,11 @@ const questions: IQuestion[] = [
       { title: "Eggs" },
       { title: "Tree nuts" },
       { title: "Fish" },
-      {
-        title: "Other (please specify)",
-      },
     ],
   },
   {
     id: "preferred_cuisine",
+    multiple: true,
     text: "What is your preferred cuisine?",
     summaryText: "Cuisine",
     options: [
@@ -152,78 +153,70 @@ const questions: IQuestion[] = [
       { title: "Asian" },
       { title: "Mexican" },
       { title: "Indian" },
-      {
-        title: "Other (please specify)",
-      },
     ],
   },
   {
     id: "preferred_protein",
+    multiple: true,
     text: "What are your preferred sources of protein?",
     summaryText: "Protein",
     options: [
-      { title: "Meat (beef, pork)" },
+      { title: "Red Meat" },
       {
-        title: "Poultry (chicken, turkey)",
+        title: "Poultry",
       },
       { title: "Fish/Seafood" },
       { title: "Eggs" },
       {
-        title: "Dairy (cheese, yogurt)",
+        title: "Dairy",
       },
       {
-        title: "Legumes (beans, lentils)",
+        title: "Legumes",
       },
       { title: "Tofu/Tempeh" },
-      {
-        title: "Other (please specify)",
-      },
     ],
   },
   {
     id: "preferred_fat",
+    multiple: true,
     text: "What are your preferred sources of fat?",
     summaryText: "Fats",
     options: [
       {
-        title: "Animal fats (butter, lard)",
+        title: "Animal fats",
       },
       {
-        title: "Plant oils (olive, avocado)",
+        title: "Plant oils",
       },
       { title: "Nuts and seeds" },
       { title: "Fish" },
       { title: "Avocados" },
       { title: "Eggs" },
-      {
-        title: "Other (please specify)",
-      },
     ],
   },
   {
     id: "preferred_carbs",
+    multiple: true,
     text: "What are your preferred sources of carbohydrates?",
     summaryText: "Carbs",
     options: [
       {
-        title: "Whole grains (rice, wheat, oats)",
+        title: "Whole grains",
       },
       { title: "Fruits" },
       { title: "Vegetables" },
+      { title: "Potatoes" },
       {
-        title: "Legumes (beans, lentils)",
+        title: "Legumes",
       },
       {
-        title: "Dairy (milk, yogurt)",
+        title: "Dairy",
       },
       {
-        title: "Sugars (honey, agave)",
+        title: "Sugars",
       },
       {
-        title: "Baked goods (bread, pastries)",
-      },
-      {
-        title: "Other (please specify)",
+        title: "Baked snacks",
       },
     ],
   },
@@ -240,62 +233,23 @@ const questions: IQuestion[] = [
       { title: "Pescatarian" },
       { title: "Gluten-free" },
       { title: "Low-carb" },
-      {
-        title: "Other (please specify)",
-      },
     ],
   },
   {
     id: "diet_goal",
+    multiple: true,
     text: "What is your main goal with your diet?",
     summaryText: "Your goal",
     options: [
-      { title: "Weight loss" },
-      { title: "Weight gain" },
-      {
-        title: "Maintain current weight",
-      },
+      { title: "Burn fat" },
+      { title: "Build muscles" },
+      { title: "Lose weight" },
       {
         title: "Improve overall health",
       },
       {
         title: "Improve athletic performance",
-      },
-      {
-        title: "Manage a medical condition",
-      },
-      {
-        title: "Other (please specify)",
-      },
-    ],
-  },
-  {
-    id: "meals_per_day",
-    text: "How many meals do you prefer to eat per day?",
-    summaryText: "Meals per day",
-    options: [
-      { title: "1" },
-      { title: "2" },
-      { title: "3" },
-      { title: "4" },
-      { title: "5 or more" },
-      { title: "Varies every day" },
-    ],
-  },
-  {
-    id: "time_for_cook",
-    summaryText: "Time to cook",
-    text: "How much time do you generally have for meal preparation?",
-    options: [
-      {
-        title: "Less than 15 minutes",
-      },
-      { title: "15-30 minutes" },
-      { title: "30-60 minutes" },
-      {
-        title: "More than 60 minutes",
-      },
-      { title: "Varies every day" },
+      }
     ],
   },
   {
@@ -308,14 +262,9 @@ const questions: IQuestion[] = [
       },
       { title: "Halal" },
       { title: "Kosher" },
-      { title: "Low sodium" },
-      { title: "Low sugar" },
       { title: "High fiber" },
       { title: "Organic" },
       { title: "Non-GMO" },
-      {
-        title: "Other (please specify)",
-      },
     ],
   },
 ];
@@ -326,28 +275,15 @@ const questionMap = new Map<string, IQuestion>(
 function App(): React.ReactElement {
   const [answers, setAnswers] = useLocalStorage<{
     [key: string]: string | null;
-  }>("answers", {
-    gender: null,
-    age_range: null,
-    lifestyle: null,
-    marital_status: null,
-    number_of_kids: null,
-    kids_age_ranges: null,
-    allergies: null,
-    preferred_cuisine: null,
-    preferred_protein: null,
-    preferred_fat: null,
-    preferred_carbs: null,
-    specific_diet: null,
-    diet_goal: null,
-    meals_per_day: null,
-    time_for_cook: null,
-    dietary_restrictions: null,
-  });
+  }>("answers", emptyResponse);
+  const [storedMeals, setStoredMeals] = useLocalStorage('pureFitMeals', null);
+
   const contextValue: QuestionnaireContextData = {
     questions: questionMap,
     answers,
     setAnswers,
+    storedMeals,
+    setStoredMeals
   };
 
   return (

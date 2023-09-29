@@ -1,9 +1,8 @@
-import React from "react";
 import { IOption } from "../context.ts";
 
 interface OptionProps {
   option: IOption;
-  onOptionSelected: () => void;
+  onOptionSelected: (t: string) => void;
 }
 
 function Option({ option, onOptionSelected }: OptionProps): React.ReactElement {
@@ -11,7 +10,7 @@ function Option({ option, onOptionSelected }: OptionProps): React.ReactElement {
   if (image) {
     return (
       <div
-        onClick={onOptionSelected}
+        onClick={() => onOptionSelected(title)}
         className="flex justify-between h-12 mb-4 items-center cursor-pointer rounded overflow-hidden shadow-2xl"
       >
         <div className="flex-grow">
@@ -25,7 +24,7 @@ function Option({ option, onOptionSelected }: OptionProps): React.ReactElement {
   }
   return (
     <div
-      onClick={onOptionSelected}
+      onClick={() => onOptionSelected(title)}
       className="h-12 mb-4 items-center cursor-pointer rounded overflow-hidden shadow-2xl"
     >
       <div className="">

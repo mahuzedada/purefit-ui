@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const phrases = [
   // Processed sugar
@@ -43,7 +43,7 @@ export default function LoadingIcon() {
     <div className="flex flex-col items-center justify-center space-y-2">
       <div className="mb-8">We are using AI to build your meal ideas...</div>
       <div className="p-6 rounded-xl shadow-2xl mx-4 text-2xl">
-        <div className="text-center text-black font-bold">{randomPhrase}</div>
+        <div className="text-center font-bold">{randomPhrase}</div>
       </div>
     </div>
   );
